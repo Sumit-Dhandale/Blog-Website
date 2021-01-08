@@ -1,0 +1,59 @@
+{% extends "blog/base.html" %}
+{% block content%}
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ post.author }}</a>
+                    <small class="text-muted">{{post.published_date|date:"F d, Y" }}</small>
+                    <h1 > {{post.title}}</h1>
+                        <p class="postcontent">{{ post.text|safe|linebreaksbr }}</p>
+
+                        {% if post.published_date %}
+                            <div class="date postdate">
+                                {{ post.published_date }}
+                            </div>
+                        </br>
+                        {% else %}
+                            <a class="btn btn-primary" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+                        {% endif %}
+
+                        {% if user.is_authenticated and user == post.author %}
+                            <a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+                            <a class='btn btn-primary' href="{% url 'post_remove' pk=post.pk %}">Remove</a>
+                        {% endif %}
+
+                        <hr>
+
+                        <a class=" btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">Add Comment</a>
+
+                        <div class="container">
+                            {% for comment in post.comments.all %}
+                                <hr>
+                                <p>{{ comment.text|safe|linebreaks }}</p>
+                                <p>Posted by: <strong>{{ comment.author }}</strong></p>
+                                {% if user.is_authenticated or comment.approved_comment %}
+
+                                    {{ comment.created_date }}
+                                    {% if not comment.approved_comment %}
+                                        <a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}">Remove</span></a>
+                                        <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}">approve</span></a>
+                                    {% endif %}
+
+                                {% endif %}
+                                {% empty %}
+                            </br>
+                            <p>No comments posted.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+
+ 
+{% endblock content %}
