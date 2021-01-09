@@ -19,8 +19,6 @@ TEMPLATE_DIR=os.path.join(BASE_DIR,'blog/templates/blog')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'an5#r0^n%hpg6c^+9206t66b0fdd*#@dq0rtfu8z4fq20gwei2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
